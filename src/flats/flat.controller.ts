@@ -14,9 +14,12 @@ import { Flat } from './flat.entity';
 export class FlatController {
   constructor(private flatService: FlatService) {}
 
-  @Get()
-  getAllFlats(): Promise<Flat[]> {
-    return this.flatService.getAllFlats();
+  @Get('/:title/:status')
+  getAllFlats(
+    @Param('title') title: string,
+    @Param('status') status: string,
+  ): Promise<Flat[]> {
+    return this.flatService.getAllFlats(title, status);
   }
 
   @Get(':id')

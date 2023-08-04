@@ -16,4 +16,13 @@ export class Flat {
 
   @Column({ default: 'Активна' })
   status: string;
+
+  @Column({ nullable: true, default: null })
+  object: string | null;
+
+  @Column({ nullable: true, default: null })
+  price: string | null;
+
+  @Column({ nullable: true, default: null })
+  floor: string | null;
 }

@@ -14,8 +14,23 @@ export class FlatService {
     private flatRepository: Repository<Flat>,
   ) {}
 
-  async getAllFlats(): Promise<Flat[]> {
-    return this.flatRepository.find();
+  async getAllFlats(title: string, status: string): Promise<Flat[]> {
+    if (title === 'Все' && status === 'Все') {
+      return this.flatRepository.find();
+    }
+
+    let queryBuilder = this.flatRepository.createQueryBuilder('flat');
+
+    if (title !== 'Все') {
+      queryBuilder = queryBuilder.where('flat.object = :object', {
+        object: title,
+      });
+    }
+    if (status !== 'Все' && status !== null) {
+      queryBuilder = queryBuilder.andWhere('flat.status = :status', { status });
+    }
+
+    return queryBuilder.getMany();
   }
 
   async getFlatById(id: number): Promise<Flat> {
